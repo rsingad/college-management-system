@@ -2,12 +2,13 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
 const Students = () => {
-  // const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const API_BASE_URL =import.meta.env.VITE_API_BASE_URL;
   const [students,setStudents]=useState([]);
   const fetchStudents = async () => {
-    const res = await axios.get('http://localhost:5000/api/students');
+    const res = await axios.get(`${API_BASE_URL}/students`);
     setStudents(res.data);
   };
+  console.log(students)
 
   useEffect(() => {
     fetchStudents();

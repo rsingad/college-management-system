@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const ManageStudents = () => {
+    const API_BASE_URL= import.meta.env.VITE_API_BASE_URL;
+
     const [students, setStudents] = useState([]);
     const [formData, setFormData] = useState({
         name: '',
@@ -20,7 +22,7 @@ const ManageStudents = () => {
     const [editingId, setEditingId] = useState(null);
 
     const fetchStudents = async () => {
-        const res = await axios.get('http://localhost:5000/api/students');
+        const res = await axios.get(`${API_BASE_URL}/students`);
         setStudents(res.data);
     };
 
@@ -35,11 +37,11 @@ const ManageStudents = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (editingId) {
-            await axios.put(`http://localhost:5000/api/students/${editingId}`, formData);
+            await axios.put(`${API_BASE_URL}/students/${editingId}`, formData);
             setEditingId(null);
             showToast('Student updated successfully', 'primary');
         } else {
-            await axios.post('http://localhost:5000/api/students', formData);
+            await axios.post(`${API_BASE_URL}/students`, formData);
             showToast('Student added successfully', 'success');
         }
         setFormData({
@@ -79,7 +81,7 @@ const ManageStudents = () => {
 
     const handleDelete = async (id) => {
         if (window.confirm('Are you sure you want to delete this student?')) {
-            await axios.delete(`http://localhost:5000/api/students/${id}`);
+            await axios.delete(`${API_BASE_URL}/students/${id}`);
             showToast('Student deleted successfully', 'danger');
             fetchStudents();
         }
